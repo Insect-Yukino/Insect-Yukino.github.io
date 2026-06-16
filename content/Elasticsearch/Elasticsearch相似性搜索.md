@@ -215,7 +215,7 @@ ES 支持多种向量相似度计算方式：
 
 整体流程：
 
-```markdown
+```text
 用户输入文本
       ↓
 Java 服务
@@ -298,7 +298,7 @@ for (Map doc : results) {
 
 整体架构
 
-```markdown
+```text
 用户行为（浏览 / 点击 / 搜索）
           ↓
 【用户近期行为存储模块】
@@ -325,13 +325,13 @@ for (Map doc : results) {
 
 key 设计
 
-```markdown
+```text
 user:behavior:{userId}
 ```
 
 value 可以是 List/ZSet。以 ZSet 为例
 
-```markdown
+```text
 ZADD user:behavior:1001 1700000000 item_123
 ZADD user:behavior:1001 1700000100 item_456
 ZADD user:behavior:1001 1700000200 item_789
@@ -429,43 +429,43 @@ results.removeIf(item -> recentItemIds.contains(item.getId()));
 
 Step 1：用户浏览内容
 
-```markdown
+```text
 用户 → 内容 A
 ```
 
 写入 Redis：
 
-```markdown
+```text
 user:behavior:1001 += A
 ```
 
 Step 2：用户进入推荐页
 
-```markdown
+```text
 GET /recommend?userId=1001
 ```
 
 Step 3：读取用户最近行为
 
-```markdown
+```text
 [A, B, C, D]
 ```
 
 Step 4：构建用户兴趣向量
 
-```markdown
+```text
 userVector = avg(vec(A), vec(B), vec(C), vec(D))
 ```
 
 Step 5：ES 向量相似性搜索
 
-```markdown
+```text
 Top-K 相似内容
 ```
 
 Step 6：过滤 + 返回
 
-```markdown
+```text
 返回用户没看过的内容
 ```
 

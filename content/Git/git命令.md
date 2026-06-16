@@ -57,7 +57,7 @@ title = 'Git命令'
 >
 > 有提交时是这样的：
 >
-> ```markdown
+> ```text
 > dev-han ->  a1b2c3d (commit)
 > master  ->  9e8f7g6 (commit)
 > HEAD    ->  dev-han

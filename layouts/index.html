@@ -3,25 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ .Site.Title }}</title>
+{{ $siteTitle := .Site.Title | default "个人博客" }}
+<title>{{ $siteTitle }}</title>
 
 <style>
 html, body {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: "PingFang SC","Microsoft YaHei",sans-serif;
     overflow-x: hidden;
     background: #fdfefe;
 }
 
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
 /* ===== 顶部封面 ===== */
 .hero {
+    width: 100vw;
     height: 100vh;
-    background-image: url("/images/img1.jpg");
+    min-height: 100svh;
+    background-image: url("/images/cover1.jpg");
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     filter: brightness(0.88);
     position: relative;
+    overflow: hidden;
     cursor: pointer;
     transition: background-image .6s ease;
 }
@@ -57,6 +67,7 @@ html, body {
 
 /* ===== 过渡 ===== */
 .hero-transition {
+    width: 100vw;
     height: 160px;
     background: linear-gradient(
         to bottom,
@@ -68,7 +79,7 @@ html, body {
 
 /* ===== 分类区域 ===== */
 .categories {
-    max-width: 960px;
+    max-width: 1080px;
     margin: -90px auto 0;
     padding: 30px 20px 100px;
 }
@@ -89,7 +100,7 @@ html, body {
 }
 
 /* ===== 雪乃风卡片 ===== */
-.col {
+.category-card {
     position: relative;
     flex: 0 0 48%;
     display: flex;
@@ -130,6 +141,17 @@ html, body {
     object-fit: cover;
 }
 
+.chat-avatar--fallback {
+    display: grid;
+    place-items: center;
+    background:
+        linear-gradient(135deg, rgba(105, 133, 170, .95), rgba(184, 203, 224, .95));
+    color: #f8fbff;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: .08em;
+}
+
 .chat-name {
     font-size: 18px;
     font-weight: 300;
@@ -141,7 +163,7 @@ html, body {
         flex-direction: column;
         gap: 14px;
     }
-    .col {
+    .category-card {
         width: 100%;
     }
 }
@@ -187,30 +209,104 @@ html, body {
 <section class="categories">
 <h2>博客分类</h2>
 
-{{ $sections := slice }}
+{{ $preferredKeys := slice
+    "computerorganization"
+    "algorithm"
+    "internet"
+    "linux"
+    "javase"
+    "javaee"
+    "jvm"
+    "juc"
+    "spring"
+    "springboot"
+    "mybatis"
+    "mysql"
+    "redis"
+    "elasticsearch"
+    "nacos"
+    "sentinel"
+    "microservices"
+    "projectexperience"
+    "git"
+    "randomthoughts"
+}}
+{{ $preferredImageKeys := slice "linux" "git" "elasticsearch" "algorithm" "redis" "juc" "spring" "mysql" "javase" "springboot" "internet" }}
+{{ $preferredSections := slice
+    (dict "key" "computerorganization" "name" "ComputerOrganization")
+    (dict "key" "algorithm" "name" "Algorithm")
+    (dict "key" "internet" "name" "Internet")
+    (dict "key" "linux" "name" "Linux")
+    (dict "key" "javase" "name" "JavaSE")
+    (dict "key" "javaee" "name" "JavaEE")
+    (dict "key" "jvm" "name" "JVM")
+    (dict "key" "juc" "name" "JUC")
+    (dict "key" "spring" "name" "Spring")
+    (dict "key" "springboot" "name" "SpringBoot")
+    (dict "key" "mybatis" "name" "MyBatis")
+    (dict "key" "mysql" "name" "Mysql")
+    (dict "key" "redis" "name" "Redis")
+    (dict "key" "elasticsearch" "name" "Elasticsearch")
+    (dict "key" "nacos" "name" "Nacos")
+    (dict "key" "sentinel" "name" "Sentinel")
+    (dict "key" "microservices" "name" "Microservices")
+    (dict "key" "projectexperience" "name" "ProjectExperience")
+    (dict "key" "git" "name" "Git")
+    (dict "key" "randomthoughts" "name" "RandomThoughts")
+}}
+{{ $sectionNames := dict }}
+{{ $availableSectionKeys := slice }}
 {{ range .Site.RegularPages }}
-    {{ $folder := path.Base .File.Dir }}
-    {{ if not (in $sections $folder) }}
-        {{ $sections = $sections | append $folder }}
+    {{ $sectionKey := .Section }}
+    {{ $sectionName := path.Base .File.Dir }}
+    {{ if not (in $availableSectionKeys $sectionKey) }}
+        {{ $availableSectionKeys = $availableSectionKeys | append $sectionKey }}
+        {{ $sectionNames = merge $sectionNames (dict $sectionKey $sectionName) }}
     {{ end }}
 {{ end }}
 
-{{ range $i, $name := $sections }}
-    {{ if eq (mod $i 2) 0 }}<div class="row">{{ end }}
+{{ $sections := slice }}
+{{ range $preferredSections }}
+    {{ $key := .key }}
+    {{ if in $availableSectionKeys $key }}
+        {{ $displayName := index $sectionNames $key | default .name }}
+        {{ $sections = $sections | append (dict "key" $key "name" $displayName) }}
+    {{ end }}
+{{ end }}
 
-    <a class="col" href="/{{ $name | urlize }}/">
+{{ range $key := $availableSectionKeys }}
+    {{ if not (in $preferredKeys $key) }}
+        {{ $sections = $sections | append (dict "key" $key "name" (index $sectionNames $key)) }}
+    {{ end }}
+{{ end }}
+
+{{ range $i, $section := $sections }}
+    {{ if eq (mod $i 2) 0 }}<div class="row">{{ end }}
+    {{ $name := index $section "name" }}
+    {{ $key := index $section "key" }}
+    {{ $imageKey := $key }}
+    {{ if lt $i (len $preferredImageKeys) }}
+        {{ $imageKey = index $preferredImageKeys $i }}
+    {{ end }}
+    {{ $avatarPath := printf "/images/category/%s.jpg" ($imageKey | lower) }}
+    {{ $avatarFile := printf "static/images/category/%s.jpg" ($imageKey | lower) }}
+    <a class="category-card" href="/{{ $key }}/">
+        {{ if fileExists $avatarFile }}
         <div class="chat-avatar">
-            <img src="/images/category/{{ $name | lower }}.jpg">
+            <img src="{{ $avatarPath }}" alt="{{ $name }}">
         </div>
+        {{ else }}
+        <div class="chat-avatar chat-avatar--fallback">{{ upper (slicestr $name 0 1) }}</div>
+        {{ end }}
         <div class="chat-name">{{ $name }}</div>
     </a>
-
     {{ if or (eq (mod $i 2) 1) (eq (add $i 1) (len $sections)) }}</div>{{ end }}
 {{ end }}
 </section>
 
 <script>
 /* Hero 背景切换 */
+const hero = document.getElementById("hero");
 const images = [
     "/images/cover1.jpg",
     "/images/cover2.jpg",
@@ -220,7 +316,7 @@ const images = [
     "/images/cover6.jpg"
 ];
 let current = 0;
-document.getElementById("hero").onclick = () => {
+hero.onclick = () => {
     current = (current + 1) % images.length;
     hero.style.backgroundImage = `url('${images[current]}')`;
 };
