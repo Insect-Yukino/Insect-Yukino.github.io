@@ -54,7 +54,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 常见风险点：
 
-### 1️⃣ HTTP 明文传输
+### 1. HTTP 明文传输
 
 ```
 同一局域网 / 公共 WiFi
@@ -64,7 +64,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 ------
 
-### 2️⃣ 前端存储不安全
+### 2. 前端存储不安全
 
 ```
 localStorage.setItem("token", "xxx");
@@ -79,7 +79,7 @@ localStorage.setItem("token", "xxx");
 
 ------
 
-### 3️⃣ 日志 / 控制台泄露（实习生最常见 😅）
+### 3. 日志 / 控制台泄露（实习生最常见 😅）
 
 ```
 log.info("token = {}", token);
@@ -96,7 +96,7 @@ console.log(token);
 
 ------
 
-### ✅ 1️⃣ token 有效期很短（如 15 分钟）
+### 1. token 有效期很短（如 15 分钟）
 
 ```
 {
@@ -108,7 +108,7 @@ console.log(token);
 
 ------
 
-### ✅ 2️⃣ Refresh Token（刷新令牌）
+### 2. Refresh Token（刷新令牌）
 
 - access token：短期
 - refresh token：只在特定接口用
@@ -117,7 +117,7 @@ console.log(token);
 
 ------
 
-### ✅ 3️⃣ 绑定上下文（进阶）
+### 3. 绑定上下文（进阶）
 
 后端校验：
 
@@ -129,7 +129,7 @@ console.log(token);
 
 ------
 
-### ✅ 4️⃣ 权限校验不是只看 token
+### 4. 权限校验不是只看 token
 
 ```
 @PreAuthorize("hasRole('ADMIN')")
@@ -302,7 +302,7 @@ HTTPS 解决的是：
 
 ------
 
-### 1️⃣ token 在客户端被偷（HTTPS 防不了）
+### 1. token 在客户端被偷（HTTPS 防不了）
 
 ```
 localStorage.getItem("token");
@@ -318,7 +318,7 @@ localStorage.getItem("token");
 
 ------
 
-### 2️⃣ token 被合法拿走（你刚才的测试场景）
+### 2. token 被合法拿走（你刚才的测试场景）
 
 你：
 
@@ -329,7 +329,7 @@ localStorage.getItem("token");
 
 ------
 
-### 3️⃣ HTTPS 被“终止”的场景（企业环境）
+### 3. HTTPS 被“终止”的场景（企业环境）
 
 ```
 浏览器 → 公司代理（解密） → 服务器

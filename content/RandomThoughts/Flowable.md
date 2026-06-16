@@ -996,7 +996,7 @@ BPMN XML
 
 # 🔷 二、逐层解释
 
-## 1️⃣ BPMN XML → 流程定义（Process Definition）
+## 1. BPMN XML → 流程定义（Process Definition）
 
 - 你写的 `.bpmn20.xml`
 - 描述流程图结构（节点、连线、条件、审批人等）
@@ -1007,7 +1007,7 @@ BPMN XML
 
 ------
 
-## 2️⃣ 流程定义 → 流程实例（Process Instance）
+## 2. 流程定义 → 流程实例（Process Instance）
 
 当你调用：
 
@@ -1035,7 +1035,7 @@ runtimeService.startProcessInstanceByKey("processKey");
 
 ------
 
-## 3️⃣ 流程实例 → 任务（Task）
+## 3. 流程实例 → 任务（Task）
 
 流程走到用户节点（UserTask）时：
 
@@ -1054,7 +1054,7 @@ Flowable 会创建 Task
 
 ------
 
-## 4️⃣ 任务 → 负责人
+## 4. 任务 → 负责人
 
 每个 Task 都可以配置：
 
@@ -1086,7 +1086,7 @@ candidateGroups = "manager"
 
 # 🔷 三、核心关系总结
 
-### 1️⃣ 一个流程定义 → 可以启动多个流程实例
+### 1. 一个流程定义 → 可以启动多个流程实例
 
 ```
 流程定义 A
@@ -1097,7 +1097,7 @@ candidateGroups = "manager"
 
 ------
 
-### 2️⃣ 一个流程实例 → 可以产生多个任务
+### 2. 一个流程实例 → 可以产生多个任务
 
 ```
 实例 1
@@ -1108,7 +1108,7 @@ candidateGroups = "manager"
 
 ------
 
-### 3️⃣ 一个任务 → 有一个最终负责人
+### 3. 一个任务 → 有一个最终负责人
 
 即使是候选人机制：
 

@@ -44,7 +44,7 @@ public String admin() {
 
 ## 三、最常用表达式（一定要会）
 
-### ✅ 1️⃣ 角色判断
+### 1. 角色判断
 
 ```
 @PreAuthorize("hasRole('ADMIN')")
@@ -60,7 +60,7 @@ public String admin() {
 
 ------
 
-### ✅ 2️⃣ 多角色
+### 2. 多角色
 
 ```
 @PreAuthorize("hasAnyRole('ADMIN','MANAGER')")
@@ -68,7 +68,7 @@ public String admin() {
 
 ------
 
-### ✅ 3️⃣ 权限判断（推荐）
+### 3. 权限判断（推荐）
 
 ```
 @PreAuthorize("hasAuthority('user:add')")
@@ -82,7 +82,7 @@ public String admin() {
 
 ------
 
-### ✅ 4️⃣ 登录状态判断
+### 4. 登录状态判断
 
 ```
 @PreAuthorize("isAuthenticated()")
@@ -92,7 +92,7 @@ public String admin() {
 
 ------
 
-### ✅ 5️⃣ 允许匿名
+### 5. 允许匿名
 
 ```
 @PreAuthorize("isAnonymous()")
@@ -102,7 +102,7 @@ public String admin() {
 
 ## 四、结合方法参数（非常常用）
 
-### 1️⃣ 参数级权限校验
+### 1. 参数级权限校验
 
 ```
 @PreAuthorize("#userId == authentication.principal.id")
@@ -116,7 +116,7 @@ public void updateUser(Long userId) {
 
 ------
 
-### 2️⃣ 多条件组合
+### 2. 多条件组合
 
 ```java
 @PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.id")
@@ -124,7 +124,7 @@ public void updateUser(Long userId) {
 
 ## 五、调用自定义权限校验方法（进阶必会）
 
-### 1️⃣ 定义权限校验 Bean
+### 1. 定义权限校验 Bean
 
 ```
 @Component("auth")
@@ -140,7 +140,7 @@ public class AuthService {
 
 ------
 
-### 2️⃣ 在 `@PreAuthorize` 中调用
+### 2. 在 `@PreAuthorize` 中调用
 
 ```
 @PreAuthorize("@auth.canEdit(#userId)")
@@ -173,7 +173,7 @@ public class UserService {
 
 ## 七、常见错误 & 排查清单
 
-### ❌ 1️⃣ 不生效
+### 1. 不生效
 
 原因 90% 是：
 
@@ -183,7 +183,7 @@ public class UserService {
 
 ------
 
-### ❌ 2️⃣ hasRole 判断失败
+### 2. hasRole 判断失败
 
 ```
 hasRole('ADMIN')
@@ -210,7 +210,7 @@ hasAuthority('ADMIN')
 
 ------
 
-### ❌ 3️⃣ 获取不到参数
+### 3. 获取不到参数
 
 ```
 @PreAuthorize("#id == ...")

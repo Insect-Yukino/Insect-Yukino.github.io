@@ -255,7 +255,7 @@ public Server getServer(List<Server> servers) {
 - A 权重 5
 - B 权重 3
 - C 权重 2
-   10 个请求 → A 处理 5 个，B 3 个，C 2 个。
+   10. 个请求 → A 处理 5 个，B 3 个，C 2 个。
 
 这样可以避免“短时间内倾斜”，分布更均匀。
 

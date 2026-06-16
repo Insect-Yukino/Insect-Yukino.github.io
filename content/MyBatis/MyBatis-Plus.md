@@ -34,7 +34,7 @@ List<User> selectByWrapper(@Param(Constants.WRAPPER) Wrapper<User> wrapper);
 
 ------
 
-### 1️⃣ `${ew.customSqlSegment}` 是什么？
+### 1. `${ew.customSqlSegment}` 是什么？
 
 这是 **MyBatis-Plus 约定的占位符**：
 
@@ -59,7 +59,7 @@ select * from user WHERE name = ? AND age >= ?
 
 ------
 
-### 2️⃣ 为什么是 `${}` 而不是 `#{}`？
+### 2. 为什么是 `${}` 而不是 `#{}`？
 
 这是很多人第一次看到会疑惑的点。
 
@@ -118,7 +118,7 @@ qw.eq(name != null, User::getName, name)
 mapper.selectByWrapper(qw);
 ```
 
-### 1️⃣ 每一行 `eq / ge` 实际在干什么？
+### 1. 每一行 `eq / ge` 实际在干什么？
 
 以这一行为例：
 
@@ -146,7 +146,7 @@ if (condition) {
 
 ------
 
-### 2️⃣ SQL 是什么时候真正生成的？
+### 2. SQL 是什么时候真正生成的？
 
 不是在你 `eq()` 的时候
  而是在 **Mapper 方法被调用时**：
@@ -174,7 +174,7 @@ mapper.selectByWrapper(qw);
 
 ------
 
-### 1️⃣ 对比一眼就懂
+### 1. 对比一眼就懂
 
 #### ❌ 注解 + `<if>`（不推荐）
 
@@ -222,7 +222,7 @@ qw.eq(name != null, User::getName, name)
 
 ------
 
-### 2️⃣ Wrapper 把“动态逻辑”放在了**正确的层**
+### 2. Wrapper 把“动态逻辑”放在了**正确的层**
 
 这是设计上的关键点：
 

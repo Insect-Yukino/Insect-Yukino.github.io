@@ -39,7 +39,7 @@ java.util.concurrent.ThreadPoolExecutor
 +------------------------------------------------------+
 ```
 
-### 1️⃣ 任务队列：阻塞队列
+### 1. 任务队列：阻塞队列
 
 用来保存**等待执行**的任务。
  常见实现：
@@ -56,7 +56,7 @@ java.util.concurrent.ThreadPoolExecutor
 
 ------
 
-### 2️⃣ 线程集合：`HashSet<Worker>`
+### 2. 线程集合：`HashSet<Worker>`
 
 线程池中的每个线程都被包装成一个内部类：
 
@@ -80,7 +80,7 @@ while ((task = getTask()) != null) {
 
 ------
 
-### 3️⃣ 线程控制器：`ctl`
+### 3. 线程控制器：`ctl`
 
 `ctl` 是一个 `AtomicInteger`，用来同时保存：
 
@@ -117,20 +117,20 @@ RUNNING = -1 << COUNT_BITS
                            |
               ┌────────────┴────────────┐
               │                         │
-        1️⃣ 若当前线程数 < corePoolSize  │
+        1. 若当前线程数 < corePoolSize  │
               │                         │
           创建新线程执行任务            │
               │                         │
               ▼                         │
-        2️⃣ 否则任务放入队列(workQueue) │
+        2. 否则任务放入队列(workQueue) │
               │                         │
               ▼                         │
-        3️⃣ 若队列满且线程数 < maxPoolSize│
+        3. 若队列满且线程数 < maxPoolSize│
               │                         │
           再创建新线程执行任务           │
               │                         │
               ▼                         │
-        4️⃣ 否则执行拒绝策略（饱和处理） │
+        4. 否则执行拒绝策略（饱和处理） │
               │                         │
               ▼                         ▼
            END

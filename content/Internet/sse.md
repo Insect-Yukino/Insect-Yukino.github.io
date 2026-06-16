@@ -212,7 +212,7 @@ Flux<ServerSentEvent<Object>> serverSentEventFlux = Flux.create((FluxSink<Server
 >
 > 举个例子，假设：
 >
-> 1 毫秒产生 100 条数据，而浏览器 1 秒只能处理 100 条。那会发生什么？
+> 1. 毫秒产生 100 条数据，而浏览器 1 秒只能处理 100 条。那会发生什么？
 >
 > 生产速度 >>> 消费速度
 >
